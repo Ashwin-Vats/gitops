@@ -1,0 +1,41 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: dev
+  namespace: argocd
+  labels:
+    app.kubernetes.io/name: dev
+    app.kubernetes.io/part-of: retail-store
+spec:
+  description: Development environment project
+  sourceRepos:
+    - 'https://github.com/your-org/retail-store-apps'
+    - 'https://github.com/your-org/retail-store-gitops'
+  destinations:
+    - namespace: dev
+      server: https://kubernetes.default.svc
+    - namespace: platform
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+  namespaceResourceWhitelist:
+    - group: '*'
+      kind: '*'
+  orphanedResources:
+    warn: false
+  roles:
+    - name: developer
+      description: Developer role for dev environment
+      policies:
+        - p, proj:dev:developer, applications, get, dev/*, allow
+        - p, proj:dev:developer, applications, sync, dev/*, allow
+        - p, proj:dev:developer, applications, update, dev/*, allow
+      groups:
+        - retail-store-dev
+    - name: viewer
+      description: Viewer role for dev environment
+      policies:
+        - p, proj:dev:viewer, applications, get, dev/*, allow
+      groups:
+        - retail-store-viewer

@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-rbac-cm
+  namespace: argocd
+  labels:
+    app.kubernetes.io/name: argocd-rbac-cm
+    app.kubernetes.io/part-of: argocd
+data:
+  policy.csv: |
+    # Default admin policy
+    g, ArgoCDAdmins, role:admin
+
+    # Platform admins
+    g, retail-store-platform-admin, role:admin
+
+    # Dev environment roles
+    g, retail-store-dev, proj:dev:developer
+    g, retail-store-viewer, proj:dev:viewer
+
+    # Stage environment roles (similar to dev)
+    g, retail-store-stage, proj:stage:developer
+    g, retail-store-stage-viewer, proj:stage:viewer
+
+    # Prod environment roles (restricted)
+    g, retail-store-prod, proj:prod:developer
+    g, retail-store-prod-viewer, proj:prod:viewer
+
+  policy.default: role:readonly
