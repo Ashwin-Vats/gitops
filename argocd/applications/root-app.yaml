@@ -11,7 +11,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/your-org/retail-store-gitops
+    repoURL: https://github.com/your-org/retail-store-gitops  # Replace with your actual GitOps repo
     targetRevision: HEAD
     path: environments
   destination:

@@ -11,9 +11,13 @@ metadata:
 spec:
   project: platform
   source:
-    repoURL: https://github.com/your-org/retail-store-apps
+    repoURL: https://github.com/your-org/retail-store-apps  # Replace with your actual apps repo
     targetRevision: HEAD
     path: charts/platform
+    helm:
+      valueFiles:
+        - values.yaml
+        - values-dev.yaml  # Will be overridden by environment
   destination:
     server: https://kubernetes.default.svc
     namespace: platform
